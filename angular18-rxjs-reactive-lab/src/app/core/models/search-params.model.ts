@@ -1,7 +1,7 @@
 import { ProductStatus } from './product.model';
 
 export interface SearchProductsParams {
-  q?: string;
+  query?: string;
   category?: string;
   status?: ProductStatus | '';
   page?: number;

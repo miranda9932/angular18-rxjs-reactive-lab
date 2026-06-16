@@ -17,8 +17,8 @@ export class CatalogApiService {
   searchProducts(params: SearchProductsParams): Observable<PageResult<Product>> {
     let httpParams = new HttpParams();
 
-    if (params.q) {
-      httpParams = httpParams.set('q', params.q);
+    if (params.query) {
+      httpParams = httpParams.set('q', params.query);
     }
 
     if (params.category) {

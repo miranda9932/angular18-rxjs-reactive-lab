@@ -67,5 +67,8 @@
       }
     }
   },
-  "defaultProject": "angular18-rxjs-reactive-lab"
+  "defaultProject": "angular18-rxjs-reactive-lab",
+  "cli": {
+    "analytics": false
+  }
 }
