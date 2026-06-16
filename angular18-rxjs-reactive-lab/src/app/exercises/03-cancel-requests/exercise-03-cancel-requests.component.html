@@ -34,9 +34,9 @@
     <article class="card">
       <h3>Logs</h3>
       <ol class="log-list">
-        @for (log of logs(); track $index) {
+        @for (log of logs$ | async; track $index) {
           <li>{{ log }}</li>
-        } @empty {
+}          @empty {
           <li class="muted">Aún no hay logs.</li>
         }
       </ol>
