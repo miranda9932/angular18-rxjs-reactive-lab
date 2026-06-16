@@ -115,7 +115,7 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next): Observable<Htt
     return next(req);
   }
 
-  const url = new URL(req.url, 'http://localhost');
+  const url = new URL(req.urlWithParams, 'http://localhost');
   const latencyMs = Number(
     url.searchParams.get('latency') ?? req.headers.get('x-latency-ms') ?? '500'
   );
@@ -139,7 +139,7 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next): Observable<Htt
 
       const body = mockBody(
         {
-          url: req.url,
+          url: req.urlWithParams,
           method: req.method,
           body: req.body
         },

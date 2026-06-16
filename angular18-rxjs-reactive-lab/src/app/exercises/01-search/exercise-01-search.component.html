@@ -17,7 +17,7 @@
     <p class="state state--error">{{ error }}</p>
   }
 
-  @if (results$ | async; as results) {
+  @if ( results$ | async; as results) {
     <ul class="results">
       @for (item of results; track item.id) {
         <li>

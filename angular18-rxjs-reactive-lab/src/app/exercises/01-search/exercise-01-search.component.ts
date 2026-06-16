@@ -1,9 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 
-import { Product } from '../../core/models/product.model';
 import { CatalogApiService } from '../../core/services/catalog-api.service';
 
 @Component({
@@ -21,17 +20,15 @@ export class Exercise01SearchComponent {
   readonly errorMessage = signal<string | null>(null);
 
   // TODO exercise-01: transforma cambios del input en llamadas al servicio.
-  readonly serviceCall$ = this.searchControl.valueChanges.pipe(
-  startWith(this.searchControl.value),
-  debounceTime(300),
-  map(search => search.trim()),
-  distinctUntilChanged(),
-  switchMap(query => this.api.searchProducts({ query })),
-  map(response => response.items),
-  )
+  readonly results$ = this.searchControl.valueChanges.pipe(
   // TODO exercise-01: evita trabajo innecesario mientras el usuario sigue escribiendo.
+    debounceTime(300),
+    map(search => search.trim()),
   // TODO exercise-01: no pintes respuestas antiguas cuando haya una búsqueda más reciente.
-  readonly results$ = of([] as Product[]);
+    distinctUntilChanged(),
+    switchMap(query => this.api.searchProducts({ query })),
+    map(response => response.items)
+  );
 
   protected readonly serviceAvailable = this.api;
 }
