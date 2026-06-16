@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { debounceTime, of, startWith, switchMap } from 'rxjs';
 
 import { Category } from '../../core/models/category.model';
 import { PageResult } from '../../core/models/page-result.model';
@@ -28,10 +28,14 @@ export class Exercise02FiltersComponent {
   readonly errorMessage = signal<string | null>(null);
 
   // TODO exercise-02: carga categorías desde el servicio.
-  readonly categories$ = of([] as Category[]);
-  
+  readonly categories$ = this.api.getCategories();
+
   // TODO exercise-02: combina los controles para pedir el listado con los valores actuales.
-  readonly page$ = of({ items: [], page: 1, pageSize: 5, total: 0 } as PageResult<Product>);
+  readonly page$ = this.form.valueChanges.pipe(
+    startWith(this.form.value),
+    debounceTime(300),
+    switchMap(response => this.api.searchProducts(response))
+  );
 
   protected readonly serviceAvailable = this.api;
 }

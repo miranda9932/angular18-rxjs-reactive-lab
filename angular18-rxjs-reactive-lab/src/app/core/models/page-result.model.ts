@@ -4,3 +4,4 @@ export interface PageResult<T> {
   pageSize: number;
   total: number;
 }
+ 
