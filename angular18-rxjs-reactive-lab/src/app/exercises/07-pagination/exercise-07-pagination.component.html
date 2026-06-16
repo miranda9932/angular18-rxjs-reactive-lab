@@ -1,0 +1,32 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>07 · Paginación reactiva</h2>
+    <p>Los filtros y la página deben permanecer coordinados.</p>
+  </header>
+
+  <form class="form-grid" [formGroup]="form">
+    <label class="field"><span>Texto</span><input type="search" formControlName="query" /></label>
+    <label class="field"><span>Categoría</span><input type="text" formControlName="category" placeholder="hardware/software/books" /></label>
+    <label class="field"><span>Estado</span><select formControlName="status"><option value="">Todos</option><option value="active">Active</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label>
+  </form>
+
+  <div class="toolbar">
+    <button type="button" (click)="previousPage()">Anterior</button>
+    <span>Página actual: {{ page() }}</span>
+    <button type="button" (click)="nextPage()">Siguiente</button>
+  </div>
+
+  @if (loading()) { <p class="state state--loading">Cargando página…</p> }
+  @if (errorMessage(); as error) { <p class="state state--error">{{ error }}</p> }
+
+  @if (page$ | async; as result) {
+    <p class="muted">Mostrando {{ result.items.length }} de {{ result.total }}</p>
+    <ul class="results">
+      @for (item of result.items; track item.id) {
+        <li>{{ item.name }}</li>
+      } @empty {
+        <li class="state state--empty">No hay resultados en esta página.</li>
+      }
+    </ul>
+  }
+</section>

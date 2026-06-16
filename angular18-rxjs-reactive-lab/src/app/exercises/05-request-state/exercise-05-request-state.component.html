@@ -1,0 +1,30 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>05 · Estado reactivo de petición</h2>
+    <p>Todo el template debe depender de una única vista reactiva.</p>
+  </header>
+
+  <div class="actions">
+    <button type="button" (click)="reload()">Cargar</button>
+    <button type="button" (click)="loadEmpty()">Cargar vacío</button>
+    <button type="button" (click)="forceError()">Forzar error</button>
+  </div>
+
+  @if (vm$ | async; as vm) {
+    @if (vm.status === 'idle') {
+      <p class="state">Pulsa cargar para empezar.</p>
+    } @else if (vm.status === 'loading') {
+      <p class="state state--loading">Cargando…</p>
+    } @else if (vm.status === 'error') {
+      <p class="state state--error">{{ vm.error }}</p>
+    } @else {
+      <ul class="results">
+        @for (item of vm.data.items; track item.id) {
+          <li>{{ item.name }}</li>
+        } @empty {
+          <li class="state state--empty">La respuesta llegó vacía.</li>
+        }
+      </ul>
+    }
+  }
+</section>

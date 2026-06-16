@@ -1,0 +1,36 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>04 · Comparación de modos de concurrencia</h2>
+    <p>Prueba varios clicks rápidos con cada modo.</p>
+  </header>
+
+  <label class="field">
+    <span>Modo</span>
+    <select [formControl]="modeControl">
+      <option value="replace">Mantener solo el último</option>
+      <option value="queue">Poner en cola</option>
+      <option value="parallel">Permitir paralelo</option>
+      <option value="ignoreWhilePending">Ignorar mientras hay pendiente</option>
+    </select>
+  </label>
+
+  <div class="actions">
+    <button type="button" (click)="submit('A')">Enviar A</button>
+    <button type="button" (click)="submit('B')">Enviar B</button>
+    <button type="button" (click)="submit('C')">Enviar C</button>
+  </div>
+
+  @if (pending()) {
+    <p class="state state--loading">Hay trabajo pendiente…</p>
+  }
+
+  @if (results$ | async; as results) {
+    <ul class="results">
+      @for (result of results; track result.requestId) {
+        <li>{{ result.label }} · {{ result.receivedAt }}</li>
+      } @empty {
+        <li class="state state--empty">Pulsa varios botones para empezar.</li>
+      }
+    </ul>
+  }
+</section>

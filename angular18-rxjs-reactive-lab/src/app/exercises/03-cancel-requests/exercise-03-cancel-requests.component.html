@@ -1,0 +1,45 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>03 · Cancelación de peticiones anteriores</h2>
+    <p>Una respuesta antigua no debe sobrescribir la más reciente.</p>
+  </header>
+
+  <label class="field">
+    <span>Búsqueda</span>
+    <input type="search" [formControl]="queryControl" placeholder="Prueba Angular y RxJS rápido" />
+  </label>
+
+  @if (loading()) {
+    <p class="state state--loading">Esperando respuesta vigente…</p>
+  }
+
+  @if (errorMessage(); as error) {
+    <p class="state state--error">{{ error }}</p>
+  }
+
+  <section class="grid grid--two">
+    <article class="card">
+      <h3>Resultados</h3>
+      @if (results$ | async; as results) {
+        <ul class="results">
+          @for (item of results; track item.id) {
+            <li>{{ item.name }}</li>
+          } @empty {
+            <li class="state state--empty">Sin resultados.</li>
+          }
+        </ul>
+      }
+    </article>
+
+    <article class="card">
+      <h3>Logs</h3>
+      <ol class="log-list">
+        @for (log of logs(); track $index) {
+          <li>{{ log }}</li>
+        } @empty {
+          <li class="muted">Aún no hay logs.</li>
+        }
+      </ol>
+    </article>
+  </section>
+</section>

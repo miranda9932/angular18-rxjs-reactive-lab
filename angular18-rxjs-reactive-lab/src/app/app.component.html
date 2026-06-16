@@ -1,0 +1,22 @@
+<header class="shell-header">
+  <div>
+    <h1>Angular 18 RxJS Reactive Lab</h1>
+    <p>Ejercicios guiados con TODOs. Cada ejercicio se puede ejecutar de forma independiente.</p>
+  </div>
+
+  <nav class="exercise-nav" aria-label="Navegación de ejercicios">
+    @for (link of links; track link.path) {
+      <a
+        [routerLink]="link.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [title]="link.title">
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+</header>
+
+<main class="shell-content">
+  <router-outlet />
+</main>

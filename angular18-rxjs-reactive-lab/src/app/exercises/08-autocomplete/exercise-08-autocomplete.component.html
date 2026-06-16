@@ -1,0 +1,24 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>08 · Autocompletado</h2>
+    <p>Escribe al menos varios caracteres para pedir sugerencias.</p>
+  </header>
+
+  <label class="field">
+    <span>Producto</span>
+    <input type="search" [formControl]="queryControl" placeholder="Autocomplete..." />
+  </label>
+
+  @if (loading()) { <p class="state state--loading">Buscando sugerencias…</p> }
+  @if (errorMessage(); as error) { <p class="state state--error">{{ error }}</p> }
+
+  @if (suggestions$ | async; as suggestions) {
+    <ul class="results">
+      @for (suggestion of suggestions; track suggestion) {
+        <li>{{ suggestion }}</li>
+      } @empty {
+        <li class="state state--empty">Sin sugerencias.</li>
+      }
+    </ul>
+  }
+</section>

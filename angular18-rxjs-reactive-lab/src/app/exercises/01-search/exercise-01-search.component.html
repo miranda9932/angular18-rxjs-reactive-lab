@@ -1,0 +1,32 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>01 · Búsqueda reactiva</h2>
+    <p>Lee <code>exercise.md</code>. Completa los TODO del componente.</p>
+  </header>
+
+  <label class="field">
+    <span>Buscar productos</span>
+    <input type="search" [formControl]="searchControl" placeholder="Angular, RxJS, cache..." />
+  </label>
+
+  @if (loading()) {
+    <p class="state state--loading">Buscando…</p>
+  }
+
+  @if (errorMessage(); as error) {
+    <p class="state state--error">{{ error }}</p>
+  }
+
+  @if (results$ | async; as results) {
+    <ul class="results">
+      @for (item of results; track item.id) {
+        <li>
+          <strong>{{ item.name }}</strong>
+          <span class="muted"> · {{ item.categoryLabel }} · {{ item.status }}</span>
+        </li>
+      } @empty {
+        <li class="state state--empty">No hay resultados todavía.</li>
+      }
+    </ul>
+  }
+</section>

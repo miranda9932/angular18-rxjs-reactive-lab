@@ -1,0 +1,30 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>11 · Guardado automático</h2>
+    <p>El formulario debe guardarse tras una pausa de edición.</p>
+  </header>
+
+  <form class="grid" [formGroup]="form">
+    <label class="field">
+      <span>Título</span>
+      <input type="text" formControlName="title" />
+    </label>
+
+    <label class="field">
+      <span>Notas</span>
+      <textarea rows="6" formControlName="notes"></textarea>
+    </label>
+  </form>
+
+  @if (saving()) {
+    <p class="state state--loading">Guardando…</p>
+  }
+
+  @if (lastSavedAt(); as savedAt) {
+    <p class="state">Último guardado: {{ savedAt }}</p>
+  }
+
+  @if (errorMessage(); as error) {
+    <p class="state state--error">{{ error }}</p>
+  }
+</section>

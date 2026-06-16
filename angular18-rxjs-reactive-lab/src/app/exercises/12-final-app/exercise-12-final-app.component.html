@@ -1,0 +1,41 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>12 · Mini aplicación final</h2>
+    <p>Integra búsqueda, filtros, paginación, recarga, caché y errores.</p>
+  </header>
+
+  @if (vm$ | async; as vm) {
+    <form class="form-grid" [formGroup]="form">
+      <label class="field"><span>Texto</span><input type="search" formControlName="query" /></label>
+      <label class="field">
+        <span>Categoría</span>
+        <select formControlName="category">
+          <option value="">Todas</option>
+          @for (category of vm.categories; track category.id) {
+            <option [value]="category.id">{{ category.label }}</option>
+          }
+        </select>
+      </label>
+      <label class="field"><span>Estado</span><select formControlName="status"><option value="">Todos</option><option value="active">Active</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label>
+    </form>
+
+    <div class="toolbar">
+      <button type="button" (click)="reload()">Recargar</button>
+      <button type="button" (click)="invalidateCategories()">Invalidar categorías</button>
+      <button type="button" (click)="previousPage()">Anterior</button>
+      <span>Página {{ vm.page.page }}</span>
+      <button type="button" (click)="nextPage()">Siguiente</button>
+    </div>
+
+    @if (vm.loading) { <p class="state state--loading">Cargando…</p> }
+    @if (vm.error) { <p class="state state--error">{{ vm.error }}</p> }
+
+    <ul class="results">
+      @for (item of vm.page.items; track item.id) {
+        <li>{{ item.name }} · {{ item.categoryLabel }} · {{ item.status }}</li>
+      } @empty {
+        <li class="state state--empty">No hay resultados.</li>
+      }
+    </ul>
+  }
+</section>

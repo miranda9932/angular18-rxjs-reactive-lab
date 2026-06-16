@@ -1,0 +1,38 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>06 · Caché HTTP con invalidación</h2>
+    <p>Dos consumidores deben poder reutilizar la misma respuesta.</p>
+  </header>
+
+  <div class="actions">
+    <button type="button" (click)="invalidate()">Invalidar caché</button>
+  </div>
+
+  <section class="grid grid--two">
+    <article class="card">
+      <h3>Consumidor A</h3>
+      @if (consumerA$ | async; as categories) {
+        <ul class="results">
+          @for (category of categories; track category.id) {
+            <li>{{ category.label }}</li>
+          } @empty {
+            <li class="state state--empty">Sin categorías.</li>
+          }
+        </ul>
+      }
+    </article>
+
+    <article class="card">
+      <h3>Consumidor B</h3>
+      @if (consumerB$ | async; as categories) {
+        <ul class="results">
+          @for (category of categories; track category.id) {
+            <li>{{ category.label }}</li>
+          } @empty {
+            <li class="state state--empty">Sin categorías.</li>
+          }
+        </ul>
+      }
+    </article>
+  </section>
+</section>

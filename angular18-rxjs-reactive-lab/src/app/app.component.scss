@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.shell-header {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #d9e2ec;
+  background: #ffffff;
+}
+
+.shell-header h1 {
+  margin: 0;
+}
+
+.shell-header p {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+}
+
+.exercise-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.exercise-nav a {
+  border: 1px solid #d9e2ec;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  color: inherit;
+  background: #f8fafc;
+}
+
+.exercise-nav a.active {
+  border-color: #0f172a;
+  font-weight: 700;
+}
+
+.shell-content {
+  padding: 1.5rem;
+}

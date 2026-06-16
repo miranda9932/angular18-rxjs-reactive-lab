@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.log-list {
+  display: grid;
+  gap: 0.4rem;
+  padding-left: 1.25rem;
+}
+
+.summary {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.summary span {
+  border: 1px solid #d9e2ec;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  background: #ffffff;
+}

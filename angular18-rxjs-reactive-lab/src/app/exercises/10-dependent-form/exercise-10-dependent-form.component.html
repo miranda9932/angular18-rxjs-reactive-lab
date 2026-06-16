@@ -1,0 +1,35 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>10 · Formulario con campos dependientes</h2>
+    <p>La ciudad depende del país seleccionado.</p>
+  </header>
+
+  <form class="form-grid" [formGroup]="form">
+    <label class="field">
+      <span>País</span>
+      <select formControlName="country">
+        <option value="">Selecciona país</option>
+        @if (countries$ | async; as countries) {
+          @for (country of countries; track country.code) {
+            <option [value]="country.code">{{ country.label }}</option>
+          }
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Ciudad</span>
+      <select formControlName="city">
+        <option value="">Selecciona ciudad</option>
+        @if (cities$ | async; as cities) {
+          @for (city of cities; track city.id) {
+            <option [value]="city.id">{{ city.label }}</option>
+          }
+        }
+      </select>
+    </label>
+  </form>
+
+  @if (loadingCities()) { <p class="state state--loading">Cargando ciudades…</p> }
+  @if (cityError(); as error) { <p class="state state--error">{{ error }}</p> }
+</section>

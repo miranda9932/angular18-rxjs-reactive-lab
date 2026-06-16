@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/.angular
+/coverage
+/artifacts
+npm-debug.log*
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

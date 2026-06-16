@@ -1,0 +1,40 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>09 · Carrito reactivo</h2>
+    <p>Completa el store para que los datos derivados se recalculen.</p>
+  </header>
+
+  <section class="grid grid--two">
+    <article class="card">
+      <h3>Productos</h3>
+      <ul class="results">
+        @for (product of products; track product.id) {
+          <li>
+            <strong>{{ product.name }}</strong>
+            <span class="muted"> · {{ product.price }} €</span>
+            <button type="button" (click)="add(product)">Añadir</button>
+          </li>
+        }
+      </ul>
+    </article>
+
+    <article class="card">
+      <h3>Carrito</h3>
+      @if (summary$ | async; as summary) {
+        <p class="summary"><span>Unidades: {{ summary.totalItems }}</span><span>Total: {{ summary.totalPrice }} €</span></p>
+        <ul class="results">
+          @for (line of summary.lines; track line.product.id) {
+            <li>
+              {{ line.product.name }} · x{{ line.quantity }}
+              <button type="button" (click)="increase(line.product)">+</button>
+              <button type="button" (click)="decrease(line.product)">-</button>
+            </li>
+          } @empty {
+            <li class="state state--empty">El carrito está vacío.</li>
+          }
+        </ul>
+        <button type="button" (click)="clear()">Vaciar carrito</button>
+      }
+    </article>
+  </section>
+</section>

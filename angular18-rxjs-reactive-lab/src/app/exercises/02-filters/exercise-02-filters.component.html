@@ -1,0 +1,54 @@
+<section class="exercise">
+  <header class="exercise__header">
+    <h2>02 · Filtros combinados</h2>
+    <p>Combina texto, categoría y estado. Consulta <code>exercise.md</code>.</p>
+  </header>
+
+  <form class="form-grid" [formGroup]="form">
+    <label class="field">
+      <span>Texto</span>
+      <input type="search" formControlName="query" placeholder="Buscar por nombre" />
+    </label>
+
+    <label class="field">
+      <span>Categoría</span>
+      <select formControlName="category">
+        <option value="">Todas</option>
+        @if (categories$ | async; as categories) {
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.label }}</option>
+          }
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Estado</span>
+      <select formControlName="status">
+        <option value="">Todos</option>
+        <option value="active">Active</option>
+        <option value="draft">Draft</option>
+        <option value="archived">Archived</option>
+      </select>
+    </label>
+  </form>
+
+  @if (loading()) {
+    <p class="state state--loading">Cargando listado…</p>
+  }
+
+  @if (errorMessage(); as error) {
+    <p class="state state--error">{{ error }}</p>
+  }
+
+  @if (page$ | async; as page) {
+    <p class="muted">Total: {{ page.total }}</p>
+    <ul class="results">
+      @for (item of page.items; track item.id) {
+        <li>{{ item.name }} · {{ item.categoryLabel }} · {{ item.status }}</li>
+      } @empty {
+        <li class="state state--empty">No hay productos con estos filtros.</li>
+      }
+    </ul>
+  }
+</section>
