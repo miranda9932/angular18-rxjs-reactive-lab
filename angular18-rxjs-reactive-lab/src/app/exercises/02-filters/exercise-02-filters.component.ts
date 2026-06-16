@@ -29,7 +29,7 @@ export class Exercise02FiltersComponent {
 
   // TODO exercise-02: carga categorías desde el servicio.
   readonly categories$ = of([] as Category[]);
-
+  
   // TODO exercise-02: combina los controles para pedir el listado con los valores actuales.
   readonly page$ = of({ items: [], page: 1, pageSize: 5, total: 0 } as PageResult<Product>);
 

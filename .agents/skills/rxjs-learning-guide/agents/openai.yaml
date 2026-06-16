@@ -1,0 +1,4 @@
+interface:
+  display_name: "RxJS Learning Guide"
+  short_description: "Guided RxJS and TypeScript coaching"
+  default_prompt: "Use $rxjs-learning-guide to guide me through this Angular/RxJS exercise one TODO at a time without giving the final answer."
