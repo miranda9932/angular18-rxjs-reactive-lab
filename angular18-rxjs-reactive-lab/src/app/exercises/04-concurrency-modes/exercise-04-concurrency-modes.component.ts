@@ -1,7 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject, of } from 'rxjs';
+import {
+  Subject,
+  concatMap,
+  exhaustMap,
+  finalize,
+  mergeMap,
+  scan,
+  startWith,
+  switchMap,
+  type OperatorFunction
+} from 'rxjs';
 
 import { ActionResult } from '../../core/models/action-result.model';
 import { CatalogApiService } from '../../core/services/catalog-api.service';
@@ -22,10 +32,49 @@ export class Exercise04ConcurrencyModesComponent {
   readonly modeControl = new FormControl<ConcurrencyMode>('replace', { nonNullable: true });
   readonly click$ = new Subject<string>();
   readonly pending = signal(false);
+  private activeRequests = 0;
 
-  // TODO exercise-04: conecta click$ con el servicio y cambia el comportamiento según el modo seleccionado.
-  // TODO exercise-04: si necesitas una suscripción manual para acumular logs, usa takeUntilDestroyed.
-  readonly results$ = of([] as ActionResult[]);
+  private runAction(label: string) {
+    this.activeRequests += 1;
+    this.pending.set(true);
+
+    return this.api.submitAction(label).pipe(
+      finalize(() => {
+        this.activeRequests = Math.max(0, this.activeRequests - 1);
+        this.pending.set(this.activeRequests > 0);
+      })
+    );
+  }
+
+  private submitWithMode(mode: ConcurrencyMode): OperatorFunction<string, ActionResult> {
+    switch (mode) {
+      case 'replace':
+        return switchMap((label) => this.runAction(label));
+
+      case 'queue':
+        return concatMap((label) => this.runAction(label));
+
+      case 'parallel':
+        return mergeMap((label) => this.runAction(label));
+
+      case 'ignoreWhilePending':
+        return exhaustMap((label) => this.runAction(label));
+    }
+
+    const exhaustiveCheck: never = mode;
+    return exhaustiveCheck;
+  }
+
+  readonly results$ = this.modeControl.valueChanges.pipe(
+    startWith(this.modeControl.value),
+    switchMap((mode) =>
+      this.click$.pipe(
+        this.submitWithMode(mode),
+        scan((results, response) => [...results, response], [] as ActionResult[]),
+        startWith([] as ActionResult[])
+      )
+    )
+  );
 
   submit(label: string): void {
     this.click$.next(label);
